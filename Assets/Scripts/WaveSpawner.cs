@@ -1,10 +1,14 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class WaveSpawner : MonoBehaviour
 {
     public GameObject enemyPrefab;
     public Transform spawnPoint;
+
+    public TMP_Text waveCountdownText;
 
     // both should be longer, but we're leaving it as it is 
     // for development porpuses
@@ -20,6 +24,8 @@ public class WaveSpawner : MonoBehaviour
     /// </summary>
     void Update()
     {
+        waveCountdownText.ForceMeshUpdate();
+        
         if (countdown <= 0f)
         {
             StartCoroutine(SpawnWave());
@@ -27,6 +33,8 @@ public class WaveSpawner : MonoBehaviour
         }
 
         countdown -= Time.deltaTime;
+
+        waveCountdownText.text = Mathf.Floor(countdown).ToString();
     }
 
     IEnumerator SpawnWave()
