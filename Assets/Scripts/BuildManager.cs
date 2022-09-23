@@ -5,6 +5,8 @@ using UnityEngine;
 public class BuildManager : MonoBehaviour
 {
     public GameObject standardTurretPrefab;
+    public GameObject anotherTurretPrefab;
+
     public static BuildManager instance;
     private GameObject turretToBuild;
 
@@ -21,16 +23,13 @@ public class BuildManager : MonoBehaviour
         instance = this;
     }
 
-    /// <summary>
-    /// Awake is called when the script instance is being loaded.
-    /// </summary>
-    void Start()
-    {
-        turretToBuild = standardTurretPrefab;
-    }
-
     public GameObject GetTurretToBuild()
     {
         return turretToBuild;
+    }
+
+    public void SetTurretToBuild(GameObject turret)
+    {
+        turretToBuild = turret;
     }
 }
