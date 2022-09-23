@@ -44,6 +44,7 @@ public class Bullet : MonoBehaviour
     private void HitTarget()
     {
         ParticleSystem effectInstance = Instantiate(impactEffect, transform.position, transform.rotation);
+        
         Destroy(gameObject);
         Destroy(target.gameObject);
         Destroy(effectInstance, 2f);
