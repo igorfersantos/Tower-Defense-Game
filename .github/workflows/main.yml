@@ -142,7 +142,9 @@ jobs:
             Library-build-
             Library-
 
-      - uses: game-ci/unity-builder@v2
+      - name: Build Windows Standalone
+        id: create_windows_release
+        uses: game-ci/unity-builder@v2
         with:
           targetPlatform: StandaloneWindows64
 
@@ -156,7 +158,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          upload_url: ${{ steps.create_windows_release.outputs.upload_url }}
           asset_path: build-StandaloneWindows64
           asset_name: TowerDefenseGame.windows-amd64.zip
           asset_content_type: application/zip
