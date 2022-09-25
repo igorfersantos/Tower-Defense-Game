@@ -151,6 +151,16 @@ jobs:
           name: build-StandaloneWindows64
           path: build/StandaloneWindows64
 
+      - name: upload windows artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build-StandaloneWindows64
+          asset_name: TowerDefenseGame.windows-amd64.zip
+          asset_content_type: application/zip
+
   buildAndroid:
     needs: testRunner
     name: Build for Android 📱
@@ -196,7 +206,6 @@ jobs:
         with:
           name: build-Android
           path: build/Android
-
 
   deployPages:
     needs: buildWebGL
