@@ -143,7 +143,7 @@ jobs:
             Library-
 
       - name: Build Windows Standalone
-        id: create_windows_release
+        id: windows_builder_step
         uses: game-ci/unity-builder@v2
         with:
           targetPlatform: StandaloneWindows64
@@ -153,13 +153,31 @@ jobs:
           name: build-StandaloneWindows64
           path: build/StandaloneWindows64
 
-      - name: upload windows artifact
+  releaseWindows:
+    needs: buildWindows
+    name: Create release for windows version 🪟
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+      - name: Create release for Windows 🪟
+        uses: actions/create-release@v1
+        id: create_release
+        with:
+          draft: false
+          prerelease: false
+          release_name: Release ${{ needs.windows_builder_step.outputs.buildVersion }}
+          tag_name: ${{ github.ref }}
+          body_path: CHANGELOG.md
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: Upload files to release ⬆️
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          upload_url: ${{ steps.create_windows_release.outputs.upload_url }}
-          asset_path: build-StandaloneWindows64
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/build-StandaloneWindows64.zip
           asset_name: TowerDefenseGame.windows-amd64.zip
           asset_content_type: application/zip
 
