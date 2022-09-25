@@ -155,7 +155,7 @@ jobs:
       - name: upload windows artifact
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: TowerDefenseGame.windows-amd64.zip
@@ -208,17 +208,6 @@ jobs:
           name: build-Android
           path: build/Android
       - name: release
-
-      - uses: actions/create-release@v1
-        id: create_release
-        with:
-          draft: false
-          prerelease: false
-          release_name: ${{ steps.version.outputs.version }}
-          tag_name: ${{ github.ref }}
-          body_path: CHANGELOG.md
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
 
   deployPages:
     needs: buildWebGL
