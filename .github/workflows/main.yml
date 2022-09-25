@@ -166,7 +166,7 @@ jobs:
         with:
           draft: false
           prerelease: false
-          release_name: Release 0.0.1
+          release_name: Release ${{ needs.windows_builder_step.outputs.buildVersion }}
           tag_name: ${{ github.ref }}
           body_path: CHANGELOG.md
         env:
