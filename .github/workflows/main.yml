@@ -96,8 +96,7 @@ jobs:
             Library-build-
             Library-
 
-      - name: Build WebGL Executable
-        uses: game-ci/unity-builder@v2
+      - uses: game-ci/unity-builder@v2
         with:
           targetPlatform: WebGL
 
@@ -143,26 +142,14 @@ jobs:
             Library-build-
             Library-
 
-      - name: Build Windows Executable
-        uses: game-ci/unity-builder@v2
-        id: create_release
+      - uses: game-ci/unity-builder@v2
         with:
           targetPlatform: StandaloneWindows64
 
       - uses: actions/upload-artifact@v2
         with:
-          name: TowerDefenseGame.windows-amd64.zip
+          name: build-StandaloneWindows64
           path: build/StandaloneWindows64
-
-      - name: upload windows artifact
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: TowerDefenseGame.windows-amd64.zip
-          asset_name: TowerDefenseGame.windows-amd64.zip
-          asset_content_type: application/zip
 
   buildAndroid:
     needs: testRunner
@@ -201,8 +188,7 @@ jobs:
             Library-build-
             Library-
 
-      - name: Build Android Executable
-        uses: game-ci/unity-builder@v2
+      - uses: game-ci/unity-builder@v2
         with:
           targetPlatform: Android
 
@@ -210,7 +196,7 @@ jobs:
         with:
           name: build-Android
           path: build/Android
-      - name: release
+
 
   deployPages:
     needs: buildWebGL
