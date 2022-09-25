@@ -96,7 +96,8 @@ jobs:
             Library-build-
             Library-
 
-      - uses: game-ci/unity-builder@v2
+      - name: Build WebGL Executable
+        uses: game-ci/unity-builder@v2
         with:
           targetPlatform: WebGL
 
@@ -142,7 +143,8 @@ jobs:
             Library-build-
             Library-
 
-      - uses: game-ci/unity-builder@v2
+      - name: Build Windows Executable
+        uses: game-ci/unity-builder@v2
         id: create_release
         with:
           targetPlatform: StandaloneWindows64
@@ -199,7 +201,8 @@ jobs:
             Library-build-
             Library-
 
-      - uses: game-ci/unity-builder@v2
+      - name: Build Android Executable
+        uses: game-ci/unity-builder@v2
         with:
           targetPlatform: Android
 
