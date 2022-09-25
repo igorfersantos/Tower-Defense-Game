@@ -155,7 +155,7 @@ jobs:
 
   releaseWindows:
     needs: buildWindows
-    name: Create release for windows version 🪟
+    name: Create release for Windows 🪟
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
