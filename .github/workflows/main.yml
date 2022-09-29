@@ -173,7 +173,7 @@ jobs:
           prerelease: false
           release_name: Release 0.0.1
           tag_name: ${{ github.ref }}
-          body_path: ./CHANGELOG.md
+          body_path: ${{ github.workspace }}/CHANGELOG.md
         env:
           GITHUB_TOKEN: ${{ github.token }}
       - name: Upload files to release ⬆️

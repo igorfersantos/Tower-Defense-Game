@@ -1616,67 +1616,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1001 &179288664
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2840447667816577313, guid: feb73291752f936489e4631a02951955, type: 3}
-      propertyPath: m_Name
-      value: MissileLauncher
-      objectReference: {fileID: 0}
-    - target: {fileID: 3179713643931198363, guid: feb73291752f936489e4631a02951955, type: 3}
-      propertyPath: m_RootOrder
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 3179713643931198363, guid: feb73291752f936489e4631a02951955, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3179713643931198363, guid: feb73291752f936489e4631a02951955, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.42
-      objectReference: {fileID: 0}
-    - target: {fileID: 3179713643931198363, guid: feb73291752f936489e4631a02951955, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3179713643931198363, guid: feb73291752f936489e4631a02951955, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3179713643931198363, guid: feb73291752f936489e4631a02951955, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3179713643931198363, guid: feb73291752f936489e4631a02951955, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3179713643931198363, guid: feb73291752f936489e4631a02951955, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3179713643931198363, guid: feb73291752f936489e4631a02951955, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3179713643931198363, guid: feb73291752f936489e4631a02951955, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3179713643931198363, guid: feb73291752f936489e4631a02951955, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5048766204133923675, guid: feb73291752f936489e4631a02951955, type: 3}
-      propertyPath: bulletPrefab
-      value: 
-      objectReference: {fileID: 2315959989749748368, guid: f715afe2bf8fb844c9c8f940cf8f6a86, type: 3}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: feb73291752f936489e4631a02951955, type: 3}
 --- !u!1001 &181968769
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6307,7 +6246,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 8.1245, y: -78.3709}
+  m_AnchoredPosition: {x: 8.1245, y: -78.36719}
   m_SizeDelta: {x: 176.2489, y: 156.7418}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &856133175
@@ -12723,7 +12662,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_UiScaleMode: 0
   m_ReferencePixelsPerUnit: 100
-  m_ScaleFactor: 1
+  m_ScaleFactor: 2
   m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
@@ -15917,7 +15856,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9184203151598014996, guid: a7934550fa1559d4fb58457d4f05c6d8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 37.34915
+      value: 37.351562
       objectReference: {fileID: 0}
     - target: {fileID: 9184203151598014996, guid: a7934550fa1559d4fb58457d4f05c6d8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
