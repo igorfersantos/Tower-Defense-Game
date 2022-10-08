@@ -155,7 +155,7 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: StandaloneWindows64
+          name: Build
           path: build/StandaloneWindows64.zip
 
   releaseWindows:
