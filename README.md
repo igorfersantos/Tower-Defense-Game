@@ -6,7 +6,7 @@ A Tower Defense Game based on Brackey's playlist [How to make a Tower Defense Ga
 
 ## Build
 
-[Latest build](https://github.com/igorfersantos/Tower-Defense-Game/releases/tag/v0.0.1)
+[Latest build](https://github.com/igorfersantos/Tower-Defense-Game/releases/tag/v0.2.2)
 
 ## Contributing
 Pull requests and ideas are welcome. For major changes, please open an issue first to discuss what you would like to change.
