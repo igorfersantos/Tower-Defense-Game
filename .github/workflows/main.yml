@@ -165,6 +165,11 @@ jobs:
     strategy:
       fail-fast: false
     steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
       - name: Create release for Windows 🪟
         uses: actions/create-release@v1
         id: create_release
