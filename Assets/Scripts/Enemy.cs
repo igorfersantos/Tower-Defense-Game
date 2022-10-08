@@ -5,37 +5,52 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public float speed = 10f;
+    [Header("Stats")]
+    public float health = 100f;
 
-    private Transform target;
-    private int waypointIndex = 0;
+    public float startSpeed = 10f;
 
-    void Start()
+    [HideInInspector]
+    public float speed;
+    public int moneyReward = 50;
+
+    [Header("Effects")]
+    public GameObject deathEffect;
+
+    private bool alive;
+
+    private void Start()
     {
-        target = Waypoints.waypoints[0];
+        speed = startSpeed;
+        alive = true;
     }
 
-    /// <summary>
-    /// Update is called every frame, if the MonoBehaviour is enabled.
-    /// </summary>
-    private void Update()
+    private void Die()
     {
-        transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
-
-        if(Vector3.Distance(transform.position, target.position) <= 0.2f)
+        if (alive)
         {
-            GetNextWaypoint();
+            alive = false;
+            
+            GameManager.Instance.addMoneyToPlayer(moneyReward);
+
+            GameObject effect = Instantiate(deathEffect, transform.position, Quaternion.identity);
+            Destroy(effect, 5f);
+            Destroy(gameObject);
         }
     }
 
-    private void GetNextWaypoint()
+    public void TakeDamage(float amount)
     {
-        if(waypointIndex == Waypoints.waypoints.Length - 1){
-            Destroy(gameObject);
-            return;
+        health -= amount;
+
+        if (health <= 0)
+        {
+            Die();
         }
+    }
 
-
-        target = Waypoints.waypoints[++waypointIndex];
+    public void Slow(float slowPercentage)
+    {
+        speed = startSpeed * (1f - slowPercentage);
     }
 }

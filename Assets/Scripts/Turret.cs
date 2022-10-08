@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,23 +6,39 @@ using UnityEngine;
 public class Turret : MonoBehaviour
 {
     private Transform target;
+    private Enemy currentEnemy;
 
-    [Header("Attributes")]
+    [Header("General")]
     public float range = 15f;
+
+    [Header("Use Bullets (default)")]
+    public GameObject bulletPrefab;
     public float fireRate = 1f;
     private float fireCountdown = 0f;
+
+    [Header("Use Laser")]
+    public bool useLaser = false;
+    public int damageOverTime = 30;
+    public float slowPercentage = 0.5f;
+
+    public LineRenderer lineRenderer;
+    public ParticleSystem impactEffect;
+    public Light impactLight;
 
     [Header("Unity Setup Fields")]
     public float turnSpeed = 10f;
     public string enemyTag = "Enemy";
     public Transform partToRotate;
 
-    public GameObject bulletPrefab;
     public Transform firePoint;
+
+    private AudioSource shootAudio;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        shootAudio = GetComponentInChildren<AudioSource>(true);
         InvokeRepeating("UpdateTarget", 0f, 0.5f);
     }
 
@@ -29,28 +46,83 @@ public class Turret : MonoBehaviour
     void Update()
     {
         if (target == null)
+        {
+            if (useLaser)
+            {
+                if (lineRenderer.enabled){
+                    lineRenderer.enabled = false;
+                    impactEffect.Stop();
+                    impactLight.enabled = false;
+                }
+            }
             return;
+        }
 
         // Target lock on
+        LockOnTarget();
+
+        if (useLaser)
+        {
+            Laser();
+        }
+        else
+        {
+            // Fire according to the fire rate
+            if (fireCountdown <= 0f)
+            {
+                Shoot();
+                fireCountdown = 1f / fireRate;
+            }
+
+            fireCountdown -= Time.deltaTime;
+        }
+    }
+
+    private void Laser()
+    {
+        currentEnemy.TakeDamage(damageOverTime * Time.deltaTime);
+        currentEnemy.Slow(slowPercentage);
+
+        if (!lineRenderer.enabled)
+        {
+            lineRenderer.enabled = true;
+            impactEffect.Play();
+            impactLight.enabled = true;
+        }
+
+        lineRenderer.SetPosition(0, firePoint.position);
+        lineRenderer.SetPosition(1, target.position);
+
+        Vector3 dir = firePoint.position - target.position;
+
+        // Vector Math :D
+        impactEffect.transform.position = target.position + dir.normalized;
+
+        impactEffect.transform.rotation = Quaternion.LookRotation(dir);
+
+    }
+
+    void Shoot()
+    {
+        GameObject bulletGameObject = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        Bullet bullet = bulletGameObject.GetComponent<Bullet>();
+
+        if (bullet != null)
+        {
+            if (shootAudio != null)
+            {
+                shootAudio.Play();
+            }
+            bullet.Seek(target);
+        }
+    }
+
+    private void LockOnTarget()
+    {
         Vector3 direction = target.position - transform.position;
         Quaternion lookRotation = Quaternion.LookRotation(direction);
         Vector3 rotation = Quaternion.Lerp(partToRotate.rotation, lookRotation, Time.deltaTime * turnSpeed).eulerAngles;
         partToRotate.rotation = Quaternion.Euler(0f, rotation.y, 0f);
-
-        // Fire according to the fire rate
-        if (fireCountdown <= 0f)
-        {
-            Shoot();
-            fireCountdown = 1f / fireRate;
-        }
-
-        fireCountdown -= Time.deltaTime;
-    }
-
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, range);
     }
 
     void UpdateTarget()
@@ -73,6 +145,7 @@ public class Turret : MonoBehaviour
         if (nearestEnemy != null && shortestDistance <= range)
         {
             target = nearestEnemy.transform;
+            currentEnemy = nearestEnemy.GetComponent<Enemy>();
         }
         else
         {
@@ -80,12 +153,9 @@ public class Turret : MonoBehaviour
         }
     }
 
-    void Shoot()
+    void OnDrawGizmosSelected()
     {
-        GameObject bulletGameObject = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-        Bullet bullet = bulletGameObject.GetComponent<Bullet>();
-
-        if (bullet != null)
-            bullet.Seek(target);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, range);
     }
 }

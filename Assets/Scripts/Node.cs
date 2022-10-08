@@ -5,9 +5,11 @@ public class Node : MonoBehaviour
 {
     public Color hoverColor;
     public Color occupiedNodeColor;
+    public Color notEnoughMoneyColor;
     public Vector3 positionOffset;
 
-    private GameObject turret;
+    [Header("Optional")]
+    public GameObject turret;
 
     private Color startColor;
     private Renderer rend;
@@ -22,15 +24,15 @@ public class Node : MonoBehaviour
     {
         rend = GetComponent<Renderer>();
         startColor = rend.material.color;
-        buildManager = BuildManager.instance;
+        buildManager = BuildManager.Instance;
     }
 
     void OnMouseDown()
     {
-        if(EventSystem.current.IsPointerOverGameObject())
+        if (EventSystem.current.IsPointerOverGameObject())
             return;
-            
-        if (buildManager.GetTurretToBuild() == null)
+
+        if (!buildManager.CanBuild)
             return;
 
         if (turret != null)
@@ -39,36 +41,45 @@ public class Node : MonoBehaviour
             return;
         }
 
-        // Build a turret
-        GameObject turrentToBuild = buildManager.GetTurretToBuild();
-        turret = Instantiate(turrentToBuild, transform.position + positionOffset, transform.rotation);
+        buildManager.BuildTurretOn(this);
+        rend.material.color = occupiedNodeColor;
     }
 
     void OnMouseEnter()
     {
-        if(EventSystem.current.IsPointerOverGameObject())
+        if (EventSystem.current.IsPointerOverGameObject())
             return;
 
-        if (buildManager.GetTurretToBuild() == null)
+        if (!buildManager.CanBuild)
             return;
 
-        rend.material.color = hoverColor;
         rend.material.DisableKeyword("_EMISSION");
+        rend.material.EnableKeyword("_SPECULARHIGHLIGHTS_OFF");
+        rend.material.SetFloat("_SpecularHighlights",0f);
+
+        if (turret != null)
+        {
+            rend.material.color = occupiedNodeColor;
+        }
+        else if (!buildManager.HasEnoughMoneyToBuild)
+        {
+            rend.material.color = notEnoughMoneyColor;
+        }
+        else
+        {
+            rend.material.color = hoverColor;
+        }
     }
     void OnMouseExit()
     {
         rend.material.color = startColor;
         rend.material.EnableKeyword("_EMISSION");
+        rend.material.DisableKeyword("_SPECULARHIGHLIGHTS_OFF");
+        rend.material.SetFloat("_SpecularHighlights",1f);
     }
 
-    /// <summary>
-    /// Called every frame while the mouse is over the GUIElement or Collider.
-    /// </summary>
-    private void OnMouseOver()
+    public Vector3 GetBuildPosition()
     {
-        if (rend.material.color == occupiedNodeColor) return;
-
-        if (turret != null)
-            rend.material.color = occupiedNodeColor;
+        return transform.position + positionOffset;
     }
 }

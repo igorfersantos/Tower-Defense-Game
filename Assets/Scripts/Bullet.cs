@@ -6,8 +6,14 @@ public class Bullet : MonoBehaviour
     private Transform target;
 
     public float speed = 70f;
+
+    public int damage = 50;
     public float explosionRadious = 0f;
+
+    [Header("Effects")]
     public ParticleSystem impactEffect;
+
+    private AudioSource impactSound;
 
     public void Seek(Transform _target)
     {
@@ -17,7 +23,7 @@ public class Bullet : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        impactSound = GetComponentInChildren<AudioSource>(true);
     }
 
     // Update is called once per frame
@@ -28,7 +34,6 @@ public class Bullet : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
 
         Vector3 direction = target.position - transform.position;
         float distanceThisFrame = speed * Time.deltaTime;
@@ -57,6 +62,7 @@ public class Bullet : MonoBehaviour
             Damage(target);
         }
 
+        AudioSource.PlayClipAtPoint(impactSound.clip, transform.position);
         Destroy(gameObject);
 
     }
@@ -75,7 +81,12 @@ public class Bullet : MonoBehaviour
 
     private void Damage(Transform enemy)
     {
-        Destroy(enemy.gameObject);
+        Enemy enemyGameObject = enemy.GetComponent<Enemy>();
+
+        if (enemyGameObject != null)
+        {
+            enemyGameObject.TakeDamage(damage);
+        }
     }
 
     /// <summary>

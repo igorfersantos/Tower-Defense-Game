@@ -1,47 +1,53 @@
+using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 
 public class WaveSpawner : MonoBehaviour
 {
     public GameObject enemyPrefab;
     public Transform spawnPoint;
 
-    public TMP_Text waveCountdownText;
-
     // both should be longer, but we're leaving it as it is 
     // for development porpuses
-    public float timeBetweenWaves = 5f;
-    private float countdown = 2f;
+    public float timeBetweenWaves = 10f;
+    private float _countdown;
+    public int Countdown { get { return (int)Math.Floor(_countdown); } }
 
     // wave number could be a polynomial function
     private int waveIndex = 0;
     public float timeBetweenSpawns = 0.5f;
 
+
+    /// <summary>
+    /// Start is called on the frame when a script is enabled just before
+    /// any of the Update methods is called the first time.
+    /// </summary>
+    private void Start()
+    {
+      _countdown = timeBetweenWaves;  
+    }
+
     /// <summary>
     /// Update is called every frame, if the MonoBehaviour is enabled.
     /// </summary>
-    void Update()
+    private void Update()
     {
-        waveCountdownText.ForceMeshUpdate();
-        
-        if (countdown <= 0f)
+        if (_countdown <= 0f)
         {
             StartCoroutine(SpawnWave());
-            countdown = timeBetweenWaves;
+            _countdown = timeBetweenWaves;
         }
 
-        countdown -= Time.deltaTime;
+        _countdown -= Time.deltaTime;
 
-        waveCountdownText.text = Mathf.Floor(countdown).ToString();
+        _countdown = Mathf.Clamp(_countdown, 0f, Mathf.Infinity);
     }
 
     IEnumerator SpawnWave()
     {
         waveIndex++;
 
-        Debug.Log($"Wave is going to be spawned!\nWave size:{waveIndex}");
+        //Debug.Log($"Wave is going to be spawned!\nWave size:{waveIndex}");
         for (int i = 0; i < waveIndex; i++)
         {
             SpawnEnemy();
