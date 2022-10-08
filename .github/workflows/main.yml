@@ -22,7 +22,7 @@ jobs:
           - PlayMode
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           lfs: true
 
@@ -59,7 +59,7 @@ jobs:
           checkName: ${{ matrix.testMode }} test results
           githubToken: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3.1.0
         with:
           name: Test results (${{ matrix.testMode }})
           path: ${{ steps.testRunner.outputs.artifactsPath }}
@@ -72,7 +72,7 @@ jobs:
       fail-fast: false
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           lfs: true
 
@@ -105,7 +105,7 @@ jobs:
         with:
           targetPlatform: WebGL
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3.1.0
         with:
           name: build-WebGL
           path: build/WebGL
@@ -118,7 +118,7 @@ jobs:
       fail-fast: false
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           lfs: true
 
@@ -147,16 +147,17 @@ jobs:
             Library-build-
             Library-
 
-      - name: Build Windows Standalone
+      - name: Build Windows Standalone ⚒️
         id: windows_builder_step
         uses: game-ci/unity-builder@v2
         with:
           targetPlatform: StandaloneWindows64
 
-      - uses: actions/upload-artifact@v2
+      - name: Upload the zipped Windows Standalone 📁 
+        uses: actions/upload-artifact@v3.1.0
         with:
           name: Build
-          path: build/StandaloneWindows64.zip
+          path: build
 
   releaseWindows:
     needs: buildWindows
@@ -166,12 +167,10 @@ jobs:
       fail-fast: false
     steps:
       - name: checkout
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+        uses: actions/checkout@v3
       - name: Get tag
         id: tag
-        uses: dawidd6/action-get-tag@v1
+        uses: dawidd6/action-get-tag@v1.1.0
       - name: Release with Changelog 🗒️
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
@@ -179,7 +178,7 @@ jobs:
           body_path: CHANGELOG.md
           name: ${{steps.tag.outputs.tag}}
           tag_name: ${{steps.tag.outputs.tag}}
-          files: build/StandaloneWindows64.zip
+          files: ./build/StandaloneWindows64.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -191,7 +190,7 @@ jobs:
       fail-fast: false
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           lfs: true
 
@@ -224,7 +223,7 @@ jobs:
         with:
           targetPlatform: Android
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3.1.0
         with:
           name: build-Android
           path: build/Android
@@ -235,7 +234,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           lfs: true
 

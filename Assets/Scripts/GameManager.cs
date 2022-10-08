@@ -6,6 +6,9 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public bool debugEnabled = false;
+    public static bool GameIsOver;
+
+    public GameObject gameOverUI;
     private static GameManager _instance;
     public static GameManager Instance
     {
@@ -20,7 +23,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public static bool gameEnded = false;
 
     /// <summary>
     /// Awake is called when the script instance is being loaded.
@@ -34,14 +36,16 @@ public class GameManager : MonoBehaviour
     /// Start is called on the frame when a script is enabled just before
     /// any of the Update methods is called the first time.
     /// </summary>
-    private void Start()
+    void Start()
     {
         Debug.unityLogger.logEnabled = debugEnabled;
+        GameIsOver = false;
     }
-    
+
     private void EndGame()
     {
-        gameEnded = true;
+        GameIsOver = true;
+        gameOverUI.SetActive(true);
         Debug.Log("Game Over!");
     }
 
